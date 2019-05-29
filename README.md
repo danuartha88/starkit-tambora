@@ -1,1 +1,2 @@
-# starkit-tambora
+# tambora
+Project tatakelola pembangkit tambora
