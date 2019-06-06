@@ -11,7 +11,7 @@
 
                     <?= $this->session->flashdata('message'); ?>
 
-                    <table class="table table-hover">
+                    <table class="table table-hover table-responsive">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -20,7 +20,7 @@
                                 <th scope="col">Image</th>
                                 <th scope="col">Role</th>
                                 <th scope="col">Member Since</th>
-                                <!-- <th scope="col">Akses Pembangkit</th> -->
+                                <th scope="col">Level</th>
                                 <th scope="col">Active</th>
                                 <th scope="col">Action</th>
 
@@ -34,29 +34,30 @@
                                     <td><?= $row['name']; ?></td>
                                     <td><?= $row['email']; ?></td>
                                     <td><img src="<?= base_url('assets/img/profile/') . $row['image']; ?>" class="card-img"></td>
-                                    <td><?php if ($row['is_active'] > 0) { ?>
-                                            <?php if ($row['role_id'] > 1) { ?>
-                                                <a href="" class="badge badge-success" data-toggle="modal" data-target="#roleModal<?= $row['id']; ?>">Change Role</a>
-                                            <?php } ?>
+                                    <td>
+                                        <?php if ($row['role_id'] > 1) { ?>
+                                            <a href="" class="badge badge-success" data-toggle="modal" data-target="#roleModal<?= $row['id']; ?>">Change Role</a>
                                         <?php } ?>
+
 
                                         <?= $row['role']; ?>
                                     </td>
                                     <td><?= date('d F Y', $row['date_created']); ?></td>
-                                    <!-- <td>
-                                                <?php if ($row['role_id'] > 1) { ?>
-                                                            <a href="" class="badge badge-primary" data-toggle="modal" data-target="#editModal<?= $row['id']; ?>">Change</a>
-                                                            <section>
-                                                                <?php foreach ($kit as $k) : ?>
-                                                                            <option value=""><?= $k['ulpl']; ?></option>
-                                                                <?php endforeach; ?>
-                                                            </section>
+                                    <td>
+                                        <?php
+                                        if ($row['role_id'] > 1) {
 
+                                            echo $row['level'];
 
-                                                <?php } else {
-                                                echo "All";
-                                            } ?>
-                                            </td> -->
+                                            ?><br>
+                                            <a href="" class="badge badge-success" data-toggle="modal" data-target="#levelModal<?= $row['id']; ?>">Change Level</a>
+                                        <?php
+                                    } else {
+                                        echo "";
+                                    }
+                                    ?>
+
+                                    </td>
                                     <td><?php
                                         if ($row['role_id'] > 1) {
                                             $active = $row['is_active'];
@@ -83,25 +84,25 @@
         </div>
         <!-- End of Main Content -->
 
-        <!-- Modal Edit -->
+        <!-- Modal Level -->
         <?php foreach ($member as $row) : ?>
-            <div class="modal fade" id="editModal<?= $row['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal fade" id="levelModal<?= $row['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="levelModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="editModalLabel">Change access</h5>
+                            <h5 class="modal-title" id="levelModalLabel">Change Level</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form action="<?= base_url('admin/ganti_kit/') . $row['id']; ?>" method="post">
+                        <form action="<?= base_url('admin/ganti_level/') . $row['id']; ?>" method="post">
                             <div class="form-group">
-                                <select class="custom-select form-control form-control-sm" id="kit_id" name="kit_id">
-                                    <?php foreach ($kit as $k) : ?>
-                                        <option value=""><?= $k['ulpl']; ?></option>
-                                    <?php endforeach; ?>
-                                    <?php foreach ($all_kit as $ak) : ?>
-                                        <option value="<?= $ak['id']; ?>"><?= $ak['ulpl']; ?></option>
+                                <select class="custom-select form-control form-control-sm" id="level_id" name="level_id">
+
+                                    <option value="">--Pilih Level--</option>
+
+                                    <?php foreach ($level as $lvl) : ?>
+                                        <option value="<?= $lvl['id']; ?>"><?= $lvl['level']; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>

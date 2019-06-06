@@ -116,9 +116,11 @@ class Admin extends CI_Controller
         $data['title'] = 'User Activation';
         $data['role'] = $this->db->get('user_role')->result_array();
         $this->load->model('Admin_model', 'admin');
-        $data['kit'] = $this->admin->akseskit();
+        $data['level'] = $this->db->get('level')->result_array();
+        // $data['kit'] = $this->admin->akseskit();
         $data['all_kit'] = $this->db->get('kit')->result_array();
         $data['member'] = $this->admin->getStatus();
+        $data['getlvl'] = $this->admin->getlevel();
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar', $data);
         $this->load->view('template/topbar', $data);
@@ -162,7 +164,7 @@ class Admin extends CI_Controller
         $this->db->where('id', $id);
         $this->db->update('user', $data);
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-            User account has been change to be  ADMIN!
+            User account has been change!
             </div>');
         redirect('admin/userstatus');
     }
@@ -204,6 +206,18 @@ class Admin extends CI_Controller
         $this->db->update('user', $data);
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
             User account has been change access PEMBANGKIT!
+            </div>');
+        redirect('admin/userstatus');
+    }
+    public function ganti_level($id)
+    {
+        $data = [
+            'level_id' => $this->input->post('level_id')
+        ];
+        $this->db->where('id', $id);
+        $this->db->update('user', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            User account has been change access Level!
             </div>');
         redirect('admin/userstatus');
     }

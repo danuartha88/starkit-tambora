@@ -49,6 +49,8 @@ class Auth extends CI_Controller
                         redirect('labuhan');
                     } elseif ($user['role_id'] == 5) {
                         redirect('pembangkit');
+                    } elseif ($user['role_id'] == 6) {
+                        redirect('pltu');
                     } else {
                         redirect('user');
                     }
